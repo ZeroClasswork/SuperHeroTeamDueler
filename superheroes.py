@@ -99,33 +99,67 @@ class Hero:
         else:
             return self.name + " won!"
 
-if __name__ == "__main__":
-    #ability = Ability("Debugging Ability", 20)
-    #print(ability.name)
-    #print(ability.attack())
-    #ability = Ability("Great Debugging", 50)
-    #another_ability = Ability("Smarty Pants", 90)
-    #hero = Hero("Grace Hopper", 200)
-    #hero.add_ability(ability)
-    #hero.add_ability(another_ability)
-    #shield = Armor("Shield", 50)
-    #hero.add_armor(shield)
-    #hero.take_damage(50)
-    #print(hero.attack())
-    #print(hero.current_health)
-    #hero.take_damage(150)
-    #print(hero.is_alive())
-    #hero.take_damage(15000)
-    #print(hero.is_alive())
+class Weapon(Ability):
+    def attack(self):
+        """ This method returns a random value
+            between one half to the full attack power of the weapon.
+        """
+        random.randint(self.max_damage // 2, self.max_damage)
 
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    print(hero1.fight(hero2))
+class Team:
+    def __init__(self, name):
+        ''' Initialize your team with its team name '''
+        self.name = name
+        self.heroes = []
+
+    def remove_hero(self, name):
+        ''' Remove hero from heroes list.
+            If Hero isn't found return 0.
+        '''
+        for hero in self.heroes:
+            if name == hero.name:
+                self.heroes.remove(hero)
+
+    def view_all_heroes(self):
+        ''' Prints out all heroes to the console. '''
+        print("Introducing " + self.name + ": ")
+        for hero in self.heroes:
+            print(hero.name)
+
+    def add_hero(self, hero):
+        '''Add Hero object to self.heroes.'''
+        self.heroes.append(hero)
+            
+
+if __name__ == "__main__":
+    # ability = Ability("Debugging Ability", 20)
+    # print(ability.name)
+    # print(ability.attack())
+    # ability = Ability("Great Debugging", 50)
+    # another_ability = Ability("Smarty Pants", 90)
+    # hero = Hero("Grace Hopper", 200)
+    # hero.add_ability(ability)
+    # hero.add_ability(another_ability)
+    # shield = Armor("Shield", 50)
+    # hero.add_armor(shield)
+    # hero.take_damage(50)
+    # print(hero.attack())
+    # print(hero.current_health)
+    # hero.take_damage(150)
+    # print(hero.is_alive())
+    # hero.take_damage(15000)
+    # print(hero.is_alive())
+
+    # hero1 = Hero("Wonder Woman")
+    # hero2 = Hero("Dumbledore")
+    # ability1 = Ability("Super Speed", 300)
+    # ability2 = Ability("Super Eyes", 130)
+    # ability3 = Ability("Wizard Wand", 80)
+    # ability4 = Ability("Wizard Beard", 20)
+    # hero1.add_ability(ability1)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
+    # print(hero1.fight(hero2))
+
+    pass
