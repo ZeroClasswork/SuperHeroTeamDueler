@@ -119,6 +119,8 @@ class Team:
         for hero in self.heroes:
             if name == hero.name:
                 self.heroes.remove(hero)
+                return
+        return 0
 
     def view_all_heroes(self):
         ''' Prints out all heroes to the console. '''
