@@ -37,6 +37,8 @@ class Hero:
         self.abilities = []
         self.armors = []
         self.name = name
+        self.kills = 0
+        self.deaths = 0
         self.starting_health = starting_health
         self.current_health = self.starting_health
 
@@ -95,9 +97,22 @@ class Hero:
                 my_turn = True
 
         if my_turn: 
+            opponent.add_kill(1)
+            self.add_death(1)
             return opponent.name + " won!"
         else:
+            self.add_kill(1)
+            opponent.add_death(1)
             return self.name + " won!"
+
+    def add_kill(self, num_kills):
+        ''' Update kills with num_kills '''
+        self.kills += num_kills
+
+    def add_death(self, num_deaths):
+        ''' Update deaths with num_deaths'''
+        self.deaths += num_deaths
+
 
 class Weapon(Ability):
     def attack(self):
