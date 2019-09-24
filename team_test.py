@@ -352,7 +352,6 @@ def test_team_attack():
 
     assert team_two.heroes[0].current_health <= 0
 
-
 def test_team_attack_kills():
     team_one = superheroes.Team("One")
     jodie = superheroes.Hero("Jodie Foster")
@@ -400,3 +399,6 @@ def test_revive_heroes():
 
     for hero in team_one.heroes:
         assert hero.current_health == 100
+
+if __name__ == "__main__":
+    test_team_attack()

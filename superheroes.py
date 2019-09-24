@@ -63,7 +63,7 @@ class Hero:
             total_damage += ability.attack()
         return total_damage
 
-    def defend(self, damage_amt):
+    def defend(self):
         '''Runs `block` method on each armor.
             Returns sum of all blocks
         '''
@@ -75,7 +75,7 @@ class Hero:
     def take_damage(self, damage):
         '''Updates self.current_health to reflect the damage minus the defense.
         '''
-        self.current_health = self.current_health - damage + self.defend(damage)
+        self.current_health = self.current_health - damage + self.defend()
         
     def is_alive(self): 
         '''Return True or False depending on whether the hero is alive or not.
@@ -152,14 +152,13 @@ class Team:
         random.shuffle(self.heroes)
         random.shuffle(other_team.heroes)
         for own_hero in self.heroes:
-            while own_hero.is_alive():
-                for other_hero in other_team.heroes:
-                    if other_hero.is_alive():
-                        own_hero.fight(other_hero)
-        if self.heroes[len(self.heroes)].is_alive():
-            return self.name + " won."
+            for other_hero in other_team.heroes:
+                if other_hero.is_alive() and own_hero.is_alive():
+                    own_hero.fight(other_hero)
+        if self.heroes[len(self.heroes)-1].is_alive():
+            print(self.name + " won.")
         else:
-            return other_team.name + " won."        
+            print(other_team.name + " won.")      
 
     def revive_heroes(self, health=100):
         ''' Reset all heroes health to starting_health'''
@@ -170,7 +169,7 @@ class Team:
         '''Print team statistics'''
         for hero in self.heroes:
             print(hero.name + ": " + hero.kills + " kills to " + hero.deaths + " deaths.")
-            
+
 if __name__ == "__main__":
     # ability = Ability("Debugging Ability", 20)
     # print(ability.name)
