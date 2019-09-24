@@ -99,11 +99,11 @@ class Hero:
         if my_turn: 
             opponent.add_kill(1)
             self.add_death(1)
-            return opponent.name + " won!"
+            print(opponent.name + " won!")
         else:
             self.add_kill(1)
             opponent.add_death(1)
-            return self.name + " won!"
+            print(self.name + " won!")
 
     def add_kill(self, num_kills):
         ''' Update kills with num_kills '''
@@ -146,8 +146,31 @@ class Team:
     def add_hero(self, hero):
         '''Add Hero object to self.heroes.'''
         self.heroes.append(hero)
-            
 
+    def attack(self, other_team):
+        ''' Battle each team against each other.'''
+        random.shuffle(self.heroes)
+        random.shuffle(other_team.heroes)
+        for own_hero in self.heroes:
+            while own_hero.is_alive():
+                for other_hero in other_team.heroes:
+                    if other_hero.is_alive():
+                        own_hero.fight(other_hero)
+        if self.heroes[len(self.heroes)].is_alive():
+            return self.name + " won."
+        else:
+            return other_team.name + " won."        
+
+    def revive_heroes(self, health=100):
+        ''' Reset all heroes health to starting_health'''
+        for hero in self.heroes:
+            hero.current_health = hero.starting_health
+
+    def stats(self):
+        '''Print team statistics'''
+        for hero in self.heroes:
+            print(hero.name + ": " + hero.kills + " kills to " + hero.deaths + " deaths.")
+            
 if __name__ == "__main__":
     # ability = Ability("Debugging Ability", 20)
     # print(ability.name)
@@ -177,6 +200,8 @@ if __name__ == "__main__":
     # hero1.add_ability(ability2)
     # hero2.add_ability(ability3)
     # hero2.add_ability(ability4)
-    # print(hero1.fight(hero2))
+    # hero1.fight(hero2)
+
+
 
     pass
