@@ -79,12 +79,12 @@ class Hero:
     def take_damage(self, damage):
         '''Updates self.current_health to reflect the damage minus the defense.
         '''
-        self.current_health = self.current_health - damage + self.defend()
+        self.current_health = int(self.current_health) - int(damage) + int(self.defend())
         
     def is_alive(self): 
         '''Return True or False depending on whether the hero is alive or not.
         '''
-        if self.current_health > 0:
+        if int(self.current_health) > 0:
             return True
         return False
 
@@ -116,14 +116,6 @@ class Hero:
     def add_death(self, num_deaths):
         ''' Update deaths with num_deaths'''
         self.deaths += num_deaths
-
-
-class Weapon(Ability):
-    def attack(self):
-        """ This method returns a random value
-            between one half to the full attack power of the weapon.
-        """
-        return random.randint(self.max_damage // 2, self.max_damage)
 
 class Team:
     def __init__(self, name):
@@ -214,22 +206,46 @@ class Arena:
           return Hero with values from user input.
         '''
         name = input("Name your hero: ")
-        starting_health = input("What is the starting health of this hero?: ")
-        return Hero(name, starting_health)
+        starting_health = int(input("What is the starting health of this hero?: "))
+        hero = Hero(name, starting_health)
+        inputter = -1
+        while inputter < 0:
+            inputter = int(input("How many pieces of armor does this hero wear?: "))
+            for armor in range(inputter):
+                hero.add_armor(self.create_armor())
+        inputter = -1
+        while inputter < 0:
+            inputter = int(input("How many abilities does this hero possess?: "))
+            for ability in range(inputter):
+                hero.add_ability(self.create_ability())
+        inputter = -1
+        while inputter < 0:
+            inputter = int(input("How many weapons does this hero wield?: "))
+            for weapon in range(inputter):
+                hero.add_weapon(self.create_weapon())
+        if len(hero.abilities) == 0:
+            existance = Ability("Existance is Pain", random.randint(13, 37))
+            hero.add_ability(existance)
+            print(hero.name + " unlocked a new ability! EXISTANCE IS PAIN doing up to " + str(existance.max_damage) + " damage.")
+        return hero
 
     def build_team_one(self):
         '''Prompt the user to build team_one '''
-        number_of_heroes = int(input("How many heroes should be on team one?: "))
+        number_of_heroes = 0
+        while number_of_heroes < 1:
+            number_of_heroes = int(input("How many heroes should be on team one?: "))
         for hero in range(number_of_heroes):
             print("Hero " + str(hero) + ": ")
-            self.create_hero()
+            self.team_one.add_hero(self.create_hero())
 
     def build_team_two(self):
         '''Prompt the user to build team_two'''
-        number_of_heroes = int(input("How many heroes should be on team two?: "))
+        number_of_heroes = 0
+        while number_of_heroes < 1:
+            number_of_heroes = int(input("How many heroes should be on team two?: "))
         for hero in range(number_of_heroes):
             print("Hero " + str(hero) + ": ")
-            self.create_hero()
+            self.team_two.add_hero(self.create_hero())
 
     def team_battle(self):
         '''Battle team_one and team_two together.'''
@@ -237,7 +253,6 @@ class Arena:
 
     def show_stats(self):
         '''Prints team statistics to terminal.'''
-        self.team_battle()
         team_one_average_kills = 0
         team_one_average_deaths = 0
         team_two_average_kills = 0
@@ -252,10 +267,10 @@ class Arena:
             team_two_average_deaths += hero.deaths
         team_two_average_kills /= len(self.team_two.heroes)
         team_two_average_deaths /= len(self.team_two.heroes)
-        print("Team one average kills: " + team_one_average_kills)
-        print("Team one average deaths: " + team_one_average_deaths)
-        print("Team two average kills: " + team_two_average_kills)
-        print("Team two average deaths: " + team_two_average_deaths)
+        print("Team one average kills: " + str(team_one_average_kills))
+        print("Team one average deaths: " + str(team_one_average_deaths))
+        print("Team two average kills: " + str(team_two_average_kills))
+        print("Team two average deaths: " + str(team_two_average_deaths))
         print("Remaining heroes: ")
         for hero in self.team_one.heroes:
             if hero.is_alive():
@@ -263,7 +278,13 @@ class Arena:
         for hero in self.team_two.heroes:
             if hero.is_alive():
                 print(" - " + hero.name)
-        pass
+
+class Weapon(Ability):
+    def attack(self):
+        """ This method returns a random value
+            between one half to the full attack power of the weapon.
+        """
+        return random.randint(int(self.max_damage) // 2, self.max_damage)
 
 if __name__ == "__main__":
     # ability = Ability("Debugging Ability", 20)
@@ -296,8 +317,33 @@ if __name__ == "__main__":
     # hero2.add_ability(ability4)
     # hero1.fight(hero2)
 
-    arena = Arena()
-    arena.build_team_one()
-    arena.build_team_two()
-    arena.team_battle()
-    arena.show_stats()
+    # arena = Arena()
+    # arena.build_team_one()
+    # arena.build_team_two()
+    # arena.team_battle()
+    # arena.show_stats()
+
+    if __name__ == "__main__":
+        game_is_running = True
+
+        # Instantiate Game Arena
+        arena = Arena()
+
+        #Build Teams
+        arena.build_team_one()
+        arena.build_team_two()
+
+        while game_is_running:
+
+            arena.team_battle()
+            arena.show_stats()
+            play_again = input("Play Again? Y or N: ")
+
+            #Check for Player Input
+            if play_again.lower() == "n":
+                game_is_running = False
+
+            else:
+                #Revive heroes to play again
+                arena.team_one.revive_heroes()
+                arena.team_two.revive_heroes()
