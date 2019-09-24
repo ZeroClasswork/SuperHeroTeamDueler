@@ -54,6 +54,10 @@ class Hero:
         '''
         self.armors.append(armor)
 
+    def add_weapon(self, weapon):
+        '''Add weapon to self.abilities'''
+        self.abilities.append(weapon)
+
     def attack(self):
         '''Calculate the total damage from all ability attacks.
             return: total:Int
@@ -149,6 +153,8 @@ class Team:
 
     def attack(self, other_team):
         ''' Battle each team against each other.'''
+        if len(self.heroes) < 1 or len(other_team.heroes) < 1:
+            return
         random.shuffle(self.heroes)
         random.shuffle(other_team.heroes)
         for own_hero in self.heroes:
@@ -169,6 +175,95 @@ class Team:
         '''Print team statistics'''
         for hero in self.heroes:
             print(hero.name + ": " + hero.kills + " kills to " + hero.deaths + " deaths.")
+
+class Arena:
+    def __init__(self):
+        '''Instantiate properties
+            team_one: None
+            team_two: None
+        '''
+        self.team_one = Team("One")
+        self.team_two = Team("Two")
+
+    def create_ability(self):
+        '''Prompt for Ability information.
+            return Ability with values from user Input
+        '''
+        name = input("Name your ability: ")
+        max_damage = input("What is the max damage of this ability?: ")
+        return Ability(name, max_damage)
+
+    def create_weapon(self):
+        '''Prompt user for Weapon information
+            return Weapon with values from user input.
+        '''
+        name = input("Name your weapon: ")
+        max_damage = input("What is the max damage of this weapon?: ")
+        return Weapon(name, max_damage)
+
+    def create_armor(self):
+        '''Prompt user for Armor information
+          return Armor with values from user input.
+        '''
+        name = input("Name your armor: ")
+        max_block = input("What is the max block of this armor?: ")
+        return Armor(name, max_block)
+
+    def create_hero(self):
+        '''Prompt user for Hero information
+          return Hero with values from user input.
+        '''
+        name = input("Name your hero: ")
+        starting_health = input("What is the starting health of this hero?: ")
+        return Hero(name, starting_health)
+
+    def build_team_one(self):
+        '''Prompt the user to build team_one '''
+        number_of_heroes = int(input("How many heroes should be on team one?: "))
+        for hero in range(number_of_heroes):
+            print("Hero " + str(hero) + ": ")
+            self.create_hero()
+
+    def build_team_two(self):
+        '''Prompt the user to build team_two'''
+        number_of_heroes = int(input("How many heroes should be on team two?: "))
+        for hero in range(number_of_heroes):
+            print("Hero " + str(hero) + ": ")
+            self.create_hero()
+
+    def team_battle(self):
+        '''Battle team_one and team_two together.'''
+        self.team_one.attack(self.team_two)
+
+    def show_stats(self):
+        '''Prints team statistics to terminal.'''
+        self.team_battle()
+        team_one_average_kills = 0
+        team_one_average_deaths = 0
+        team_two_average_kills = 0
+        team_two_average_deaths = 0
+        for hero in self.team_one.heroes:
+            team_one_average_kills += hero.kills
+            team_one_average_deaths += hero.deaths
+        team_one_average_kills /= len(self.team_one.heroes)
+        team_one_average_deaths /= len(self.team_one.heroes)
+        for hero in self.team_two.heroes:
+            team_two_average_kills += hero.kills
+            team_two_average_deaths += hero.deaths
+        team_two_average_kills /= len(self.team_two.heroes)
+        team_two_average_deaths /= len(self.team_two.heroes)
+        print("Team one average kills: " + team_one_average_kills)
+        print("Team one average deaths: " + team_one_average_deaths)
+        print("Team two average kills: " + team_two_average_kills)
+        print("Team two average deaths: " + team_two_average_deaths)
+        print("Remaining heroes: ")
+        for hero in self.team_one.heroes:
+            if hero.is_alive():
+                print(" - " + hero.name)
+        for hero in self.team_two.heroes:
+            if hero.is_alive():
+                print(" - " + hero.name)
+        pass
 
 if __name__ == "__main__":
     # ability = Ability("Debugging Ability", 20)
@@ -201,6 +296,8 @@ if __name__ == "__main__":
     # hero2.add_ability(ability4)
     # hero1.fight(hero2)
 
-
-
-    pass
+    arena = Arena()
+    arena.build_team_one()
+    arena.build_team_two()
+    arena.team_battle()
+    arena.show_stats()
