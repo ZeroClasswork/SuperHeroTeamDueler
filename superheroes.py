@@ -206,21 +206,39 @@ class Arena:
           return Hero with values from user input.
         '''
         name = input("Name your hero: ")
-        starting_health = int(input("What is the starting health of this hero?: "))
+        starting_health = -1
+        while starting_health < 1:
+            try:
+                starting_health = int(input("What is the starting health of this hero?: "))
+            except:
+                print("Please enter a number")
+                starting_health = -1
         hero = Hero(name, starting_health)
         inputter = -1
         while inputter < 0:
-            inputter = int(input("How many pieces of armor does this hero wear?: "))
+            try:
+                inputter = int(input("How many pieces of armor does this hero wear?: "))
+            except:
+                print("Please enter a number")
+                inputter = -1
             for armor in range(inputter):
                 hero.add_armor(self.create_armor())
         inputter = -1
         while inputter < 0:
-            inputter = int(input("How many abilities does this hero possess?: "))
+            try:
+                inputter = int(input("How many abilities does this hero possess?: "))
+            except:
+                print("Please enter a number")
+                inputter = -1
             for ability in range(inputter):
                 hero.add_ability(self.create_ability())
         inputter = -1
         while inputter < 0:
-            inputter = int(input("How many weapons does this hero wield?: "))
+            try:
+                inputter = int(input("How many weapons does this hero wield?: "))
+            except:
+                print("Please enter a number")
+                inputter = -1
             for weapon in range(inputter):
                 hero.add_weapon(self.create_weapon())
         if len(hero.abilities) == 0:
@@ -233,7 +251,11 @@ class Arena:
         '''Prompt the user to build team_one '''
         number_of_heroes = 0
         while number_of_heroes < 1:
-            number_of_heroes = int(input("How many heroes should be on team one?: "))
+            try:
+                number_of_heroes = int(input("How many heroes should be on team one?: "))
+            except:
+                print("Please enter a number")
+                inputter = -1
         for hero in range(number_of_heroes):
             print("Hero " + str(hero) + ": ")
             self.team_one.add_hero(self.create_hero())
@@ -242,7 +264,11 @@ class Arena:
         '''Prompt the user to build team_two'''
         number_of_heroes = 0
         while number_of_heroes < 1:
-            number_of_heroes = int(input("How many heroes should be on team two?: "))
+            try:
+                number_of_heroes = int(input("How many heroes should be on team two?: "))
+            except:
+                print("Please enter a number")
+                inputter = -1
         for hero in range(number_of_heroes):
             print("Hero " + str(hero) + ": ")
             self.team_two.add_hero(self.create_hero())
