@@ -1,6 +1,11 @@
+# random allows teams to randomize order, abilities to have randomized damage, etc.
 import random
 
 class Ability:
+    '''
+        Ability is the base for all damaging abilities or weapons that a hero could have. 
+    '''
+
     def __init__(self, name, max_damage):
         '''Create Instance Variables:
             name:String
@@ -13,12 +18,15 @@ class Ability:
         return random.randint(0, self.max_damage)
 
 class Armor:
+    '''
+        Armor is the base for all blocking abilities a hero could have.
+    '''
+    
     def __init__(self, name, max_block):
         '''Instantiate instance properties.
             name: String
             max_block: Integer
         '''
-        # TODO: Create instance variables for the values passed in.
         self.name = name
         self.max_block = max_block
     def block(self):
@@ -26,6 +34,10 @@ class Armor:
         return random.randint(0, self.max_block)
 
 class Hero:
+    '''
+        Hero represents a person that has abilities and can fight.
+    '''
+
     def __init__(self, name, starting_health=100):
         '''Instance properties:
             abilities: List
@@ -118,6 +130,10 @@ class Hero:
         self.deaths += num_deaths
 
 class Team:
+    '''
+        Team represents a collection of heroes that can fight or revive collectively.
+    '''
+
     def __init__(self, name):
         ''' Initialize your team with its team name '''
         self.name = name
@@ -169,6 +185,10 @@ class Team:
             print(hero.name + ": " + hero.kills + " kills to " + hero.deaths + " deaths.")
 
 class Arena:
+    '''
+        Arena represents a stand-off between two teams where heros take turns fighting Pokemon-style.
+    '''
+
     def __init__(self):
         '''Instantiate properties
             team_one: None
@@ -306,6 +326,9 @@ class Arena:
                 print(" - " + hero.name)
 
 class Weapon(Ability):
+    '''
+        A Weapon is a specific type of Ability with a higher minimum damage amount.
+    '''
     def attack(self):
         """ This method returns a random value
             between one half to the full attack power of the weapon.
