@@ -15,7 +15,7 @@ class Ability:
         self.max_damage = max_damage
     def attack(self):
         '''Return a value between 0 and the value set by self.max_damage.'''
-        return random.randint(0, self.max_damage)
+        return random.randint(0, int(self.max_damage))
 
 class Armor:
     '''
@@ -31,7 +31,7 @@ class Armor:
         self.max_block = max_block
     def block(self):
         ''' Return a random value between 0 and the initialized max_block strength. '''
-        return random.randint(0, self.max_block)
+        return random.randint(0, int(self.max_block))
 
 class Hero:
     '''
@@ -275,7 +275,7 @@ class Arena:
                 number_of_heroes = int(input("How many heroes should be on team one?: "))
             except:
                 print("Please enter a number")
-                inputter = -1
+                number_of_heroes = -1
         for hero in range(number_of_heroes):
             print("Hero " + str(hero) + ": ")
             self.team_one.add_hero(self.create_hero())
@@ -288,7 +288,7 @@ class Arena:
                 number_of_heroes = int(input("How many heroes should be on team two?: "))
             except:
                 print("Please enter a number")
-                inputter = -1
+                number_of_heroes = -1
         for hero in range(number_of_heroes):
             print("Hero " + str(hero) + ": ")
             self.team_two.add_hero(self.create_hero())
